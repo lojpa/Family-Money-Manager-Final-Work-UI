@@ -1,0 +1,272 @@
+<div *ngIf="createTransactionError && postClicked" class="alert alert-danger" role="alert">
+        Save transaction failed
+      </div>
+      <div *ngIf="!createTransactionError && postClicked" class="alert alert-success" role="alert">
+        Save transaction success
+      </div>
+<div class="container">
+    <div class="row">
+        <div class="col-xl-12 mt-3">
+            <div class="d-block w-100 border rounded h-100">
+                <div class="d-block w-100 p-3">
+                    <div class="row pl-0 pt-3 pb-3">
+                        <div class="col-md-12 ml-3">
+                            <h2>Transactions</h2>
+                        </div>
+                        <div class="col-5 col-sm-4 col-md-3 ml-3 mt-2">
+                            <button type="button" class="btn btn-primary" (click)="fillDate()" data-toggle="modal" #fileInput data-target=".bd-example-modal-lg">Add
+                                transaction</button>
+                        </div>
+                    </div>
+
+
+                    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Add transaction</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-12 col-md-10 offset-md-1 col-lg-10 offset-lg-1 col-xl-10 offset-xl-1 mt-3">
+                                            <div class="d-block w-100 border rounded">
+                                                <ul class="nav nav-pills nav-fill cursor-pointer">
+                                                    <li class="nav-item bg-white border-right border-bottom" (click)="changeActiveTab(0)">
+                                                        <div *ngIf="expenseActive" class="nav-link text-danger bg-lightgrey link-hover">Expense</div>
+                                                        <div *ngIf="!expenseActive" class="nav-link text-dark link-hover">Expense</div>
+                                                    </li>
+                                                    <li class="nav-item bg-white border-bottom" (click)="changeActiveTab(1)">
+                                                        <div *ngIf="incomeActive" class="nav-link text-success bg-lightgrey link-hover"
+                                                            href="#">Income</div>
+                                                        <div *ngIf="!incomeActive" class="nav-link text-dark link-hover"
+                                                            href="#">Income</div>
+                                                    </li>
+                                                </ul>
+
+                                                <div class="d-block m-2">
+                                                    <div class="container">
+                                                        <div class="row" [formGroup]="transactionForm">
+
+                                                            <div class="col-md-12 pl-0 pr-0">{{ fromOrTo }}</div>
+                                                            <div class="col-12 col-sm-12 col-md-7 col-lg-7 col-xl-7 pl-0 pr-0">
+                                                                <select class="form-control mt-1" formControlName="accountId">
+                                                                    <option *ngFor="let acc of accounts" value="{{ acc.id }}">{{acc.name}}</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-6 col-sm-6 col-md-2 offset-md-1 col-lg-2 offset-lg-1 col-xl-2 offset-xl-1 pl-0 pr-0">
+                                                                <input min="0" step="0.25" type="number"
+                                                                    formControlName="amount" class="form-control mt-1">
+                                                            </div>
+                                                            <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 pl-0 pr-0">
+                                                                <select class="form-control p-1 mt-1" formControlName="currency">
+                                                                    <option value="USD" selected>USD</option>
+                                                                    <option value="EUR">EUR</option>
+                                                                    <option value="BAM">BAM</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div *ngIf="!transferActive" class="col-md-12 pl-0 pr-0 mt-3">Category</div>
+                                                            <div *ngIf="!transferActive" class="col-12 col-sm-12 col-md-7 col-lg-7 col-xl-7 pl-0 pr-0">
+                                                                <select *ngIf="!clicked" class="form-control p-1 mt-1"
+                                                                    formControlName="categoryId">
+                                                                    <option *ngFor="let cat of categories" value="{{cat.id}}">{{cat.name}}</option>
+                                                                </select>
+                                                                <input *ngIf="clicked" class="form-control p-1 mt-1"
+                                                                    type="text" formControlName="categoryId"
+                                                                    placeholder="Enter new category">
+                                                                <button type="button" class="btn btn-primary" (click)="categoryClick()">{{
+                                                                    categoryButton }}</button>
+                                                                <!-- 
+                                                                <div class="modal fade" id="exampleModal_2" tabindex="-1"
+                                                                    role="dialog" aria-labelledby="exampleModalLabel"
+                                                                    aria-hidden="true">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title" id="exampleModalLabel">New
+                                                                                    category</h5>
+                                                                                <button type="button" class="close"
+                                                                                    data-dismiss="modal" aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <form>
+                                                                                    <div class="form-group">
+                                                                                        <label for="recipient-name"
+                                                                                            class="col-form-label">Category
+                                                                                            name:</label>
+                                                                                        <input type="text" class="form-control"
+                                                                                            name="name" [(ngModel)]="name">
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button" class="btn btn-secondary"
+                                                                                    #closeCategoryModal data-dismiss="exampleModal_2">Close</button>
+                                                                                <button type="button" class="btn btn-primary"
+                                                                                    (click)="postCategory()">Add</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div> -->
+                                                            </div>
+
+                                                            <div *ngIf="!transferActive" class="col-12 col-sm-12 col-md-4 offset-md-1 col-lg-4 offset-lg-1 col-xl-4 offset-xl-1 pl-0 pr-0">
+                                                                <input class="form-control p-1 mt-1" type="date"
+                                                                    formControlName="dateTime">
+                                                            </div>
+
+                                                            <div class="col-md-12 pl-0 pr-0 mt-3"></div>
+                                                            <div class="col-12 col-sm-12 col-md-7 col-lg-7 col-xl-7 pl-0 pr-0">
+                                                                <input class="form-control" type="text" placeholder="Note"
+                                                                    formControlName="comment">
+                                                            </div>
+                                                            <div *ngIf="!transferActive" class="col-12 col-sm-12 col-md-4 offset-md-1 col-lg-4 offset-lg-1 col-xl-4 offset-xl-1 pl-0 pr-0 mb-3">
+                                                                <input class="form-control btn btn-primary" type="button"
+                                                                    value="{{ tlt }}" role="button" (click)="postTransaction(this.transactionForm.value)">
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" #closeAddExpenseModal data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade bd-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Edit transaction</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-12 col-md-10 offset-md-1 col-lg-10 offset-lg-1 col-xl-10 offset-xl-1 mt-3">
+                                            <div class="d-block w-100 border rounded">
+                                                <ul class="nav nav-pills nav-fill cursor-pointer">
+                                                    <li class="nav-item bg-white border-right border-bottom" (click)="changeActiveTab(0)">
+                                                        <div *ngIf="expenseActive" class="nav-link text-danger bg-lightgrey link-hover">Expense</div>
+                                                        <div *ngIf="!expenseActive" class="nav-link text-dark link-hover">Expense</div>
+                                                    </li>
+                                                    <li class="nav-item bg-white border-right border-bottom" (click)="changeActiveTab(2)">
+                                                        <div *ngIf="!transferActive" class="nav-link text-dark link-hover"
+                                                            href="#">Transfer</div>
+                                                    </li>
+                                                    <li class="nav-item bg-white border-bottom" (click)="changeActiveTab(1)">
+                                                        <div *ngIf="incomeActive" class="nav-link text-success bg-lightgrey link-hover"
+                                                            href="#">Income</div>
+                                                        <div *ngIf="!incomeActive" class="nav-link text-dark link-hover"
+                                                            href="#">Income</div>
+                                                    </li>
+                                                </ul>
+
+                                                <div class="d-block m-2">
+                                                    <div class="container">
+                                                        <div class="row" [formGroup]="transactionForm">
+
+                                                            <div class="col-md-12 pl-0 pr-0">From</div>
+                                                            <div class="col-12 col-sm-12 col-md-7 col-lg-7 col-xl-7 pl-0 pr-0">
+                                                                <select class="form-control mt-1" formControlName="accountId">
+                                                                    <option selected value="{{ editTransaction.accountId }}">{{account.name}}</option>
+                                                                    <option *ngFor="let acc of accounts" value="{{ acc.id }}"
+                                                                        [hidden]="editTransaction.accountId === acc.id ? 'hidden' : null">{{acc.name}}</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-6 col-sm-6 col-md-2 offset-md-1 col-lg-2 offset-lg-1 col-xl-2 offset-xl-1 pl-0 pr-0">
+                                                                <input min="0" step="0.25" type="number"
+                                                                    formControlName="amount" class="form-control mt-1"
+                                                                    value="{{editTransaction.amount}}">
+                                                            </div>
+                                                            <div class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 pl-0 pr-0">
+                                                                <select class="form-control p-1 mt-1" formControlName="currency">
+                                                                    <option selected value="{{ editTransaction.currency }}">{{editTransaction.currencyValue}}</option>
+                                                                    <option value="USD" [hidden]="editTransaction.currencyValue === 'USD' ? 'hidden' : null">USD</option>
+                                                                    <option value="EUR" [hidden]="editTransaction.currencyValue === 'EUR' ? 'hidden' : null">EUR</option>
+                                                                    <option value="BAM" [hidden]="editTransaction.currencyValue === 'BAM' ? 'hidden' : null">BAM</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div *ngIf="!transferActive" class="col-md-12 pl-0 pr-0 mt-3">Category</div>
+                                                            <div *ngIf="!transferActive" class="col-12 col-sm-12 col-md-7 col-lg-7 col-xl-7 pl-0 pr-0">
+                                                                <select class="form-control p-1 mt-1" formControlName="categoryId">
+                                                                    <option selected value="{{ editTransaction.categoryId }}">{{
+                                                                        category.name }}</option>
+                                                                    <option *ngFor="let cat of categories" value="{{cat.id}}"
+                                                                        [hidden]="editTransaction.categoryId === cat.id ? 'hidden' : null">{{cat.name}}</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div *ngIf="!transferActive" class="col-12 col-sm-12 col-md-4 offset-md-1 col-lg-4 offset-lg-1 col-xl-4 offset-xl-1 pl-0 pr-0">
+                                                                <input class="form-control p-1 mt-1" type="date"
+                                                                    formControlName="dateTime">
+                                                            </div>
+
+                                                            <div class="col-md-12 pl-0 pr-0 mt-3"></div>
+                                                            <div class="col-12 col-sm-12 col-md-7 col-lg-7 col-xl-7 pl-0 pr-0">
+                                                                <input class="form-control" type="text" placeholder="Note"
+                                                                    formControlName="comment" value="{{editTransaction.comment}}">
+                                                            </div>
+
+                                                            <div *ngIf="!transferActive" class="col-12 col-sm-12 col-md-4 offset-md-1 col-lg-4 offset-lg-1 col-xl-4 offset-xl-1 pl-0 pr-0 mb-3">
+                                                                <input class="form-control btn btn-primary" type="button"
+                                                                    value="{{ tlt }}" role="button" id="expense-income-button"
+                                                                    (click)="patchTransaction(this.transactionForm.value)">
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" #closePatchExpenseModal
+                                        data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container mt-5">
+                        <div class="row mt-3 border-bottom" *ngFor="let transaction of transactions">
+                            <div class="col-2 col-sm-2 col-md-1 text-nowrap">{{transaction.dateTime | date: 'dd MMM'}}</div>
+                            <div class="col-8 col-sm-8 col-md-4 text-nowrap">{{transaction.account.name}}
+                                <i class="fa fa-arrow-{{ transaction.expenseOrIncome === 1 ? 'left' : 'right'}}"></i>
+                                <span class="bg-light p-1">{{ transaction.category.name }}</span></div>
+                            <div class="col-2 col-sm-2 col-md-1 text-nowrap">{{transaction.comment}}</div>
+                            <div class="col-12 col-sm-12 col-md-6">
+                                <div class="col-10 col-sm-10 col-md-10 d-inline-block text-right {{ transaction.expenseOrIncome === 1 ? 'text-success' : 'text-danger'}}">{{transaction.amount}}
+                                    {{transaction.currencyValue}}</div>
+                                <div class="col-2 col-sm-2 col-md-2 d-inline-block text-right"><i class="fa fa-pencil fa-sm"
+                                        aria-hidden="true" role="button" data-toggle="modal" (click)="fillModal(transaction)"
+                                        data-target=".bd-modal-lg"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

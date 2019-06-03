@@ -1,0 +1,68 @@
+<div *ngIf="isErrorHappened" class="alert alert-danger" style="margin-top: 80px" role="alert">
+  User already exist!
+</div>
+<div *ngIf="!isErrorHappened && clicked" class="alert alert-success" style="margin-top: 80px" role="alert">
+  Success
+</div>
+<div class="container h-100 pos">
+  <div class="d-flex justify-content-center h-100">
+    <div class="user_card">
+      <div class="d-flex justify-content-center">
+        <div class="brand_logo_container">
+          <img src="./assets/images/logo.png" class="brand_logo" alt="Logo">
+        </div>
+      </div>
+      <div class="d-flex justify-content-center form_container">
+        <form [formGroup]="registrationForm">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="col-md-6 d-inline-block">
+                  <div class="form-group mt-2">
+                    <label for="firstName">First Name:</label>
+                    <input type="text" class="form-control input_pass" minlength="5" placeholder="Firstname"
+                      formControlName="firstName" id="firstName" required>
+                  </div>
+                  <div class="form-group mt-2">
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" class="form-control input_pass" placeholder="Lastname" formControlName="lastName"
+                      id="lastName" required>
+                  </div>
+                  <div class="form-group mt-2">
+                    <label for="userName">Username:</label>
+                    <input type="text" class="form-control input_user" placeholder="Username" formControlName="userName"
+                      id="userName" required>
+                  </div>
+                </div>
+                <div class="col-md-6 d-inline-block">
+
+                  <div class="form-group mt-2">
+                    <label for="email">Email:</label>
+                    <input type="text" class="form-control input_pass" placeholder="Email" formControlName="email"
+                      id="email" required>
+                  </div>
+
+                  <div class="form-group mt-2">
+                    <label for="confirm_password" class="text-nowrap">Confirm Password:</label>
+                    <input type="password" class="form-control input_pass" placeholder="Confirm password"
+                      formControlName="confirmPassword" id="confirm_password" required>
+                  </div>
+                  <div class="form-group mt-2">
+                    <label for="password">Password:</label>
+                    <input type="password" class="form-control input_pass" placeholder="Password"
+                      formControlName="password" id="password" required>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="text-center mt-3 pl-5 pr-5">
+        <button type="button" class="btn btn-success w-50" (click)="login()">Sign in</button>
+        <button type="button" class="btn btn-secondary w-50" (click)="postUser(this.registrationForm.value)">Sign
+          up</button>
+      </div>
+    </div>
+  </div>
+</div>

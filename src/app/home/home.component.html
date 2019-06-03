@@ -1,0 +1,175 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xl-12 mt-3">
+      <div class="d-block w-100 border rounded h-100">
+        <div class="d-block w-100">
+          <div class="container m-2">
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="p-2" (click)="toggleDiv()">
+                  <div class="d-inline-block w-50"><i class="fa fa-arrow-right" aria-hidden="true"></i>ACCOUNTS</div>
+                  <!-- <div class="d-inline-block text-success float-right text-right mr-2 w-50" style="font-weight: bold">1985.00
+                    BAM</div> -->
+                </div>
+                <div *ngIf="networth">
+                  <div class="container border rounded" *ngIf="cashAccounts.length > 0">
+                    <div class="row bg-lightgrey pt-1 pb-1">
+                      <div class="col-6 col-sm-6 col-md-6 pt-1">
+                        <h6>Cash</h6>
+                      </div>
+                      <div class="col-6 col-sm-6 col-md-6 text-right text-success pt-1">
+                        <h6>{{cashAccountsTotal | number : '1.2-2'}} BAM</h6>
+                      </div>
+                    </div>
+                    <div class="row border-bottom pt-1 pb-1" *ngFor="let cash of cashAccounts">
+                      <div class="col-6 col-sm-6 col-md-6 pt-1">
+                        <p>{{cash.name}}</p>
+                      </div>
+                      <div class="col-6 col-sm-6 col-md-6 text-right pt-1">
+                        <div class="d-inline-block">{{cash.amount | number : '1.2-2'}} {{cash.currencyValue}}</div>
+                        <!-- <div class="text-success">2000 BAM</div>
+                <div class="text-success">21 EUR</div> -->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="container border rounded" *ngIf="creditAccounts.length > 0">
+                    <div class="row bg-lightgrey pt-1 pb-1">
+                      <div class="col-6 col-sm-6 col-md-6 pt-1">
+                        <h6>Credit</h6>
+                      </div>
+                      <div class="col-6 col-sm-6 col-md-6 text-right text-success pt-1">
+                        <h6>{{creditAccountsTotal | number : '1.2-2'}} BAM</h6>
+                      </div>
+                    </div>
+                    <div class="row border-bottom pt-1 pb-1" *ngFor="let credit of creditAccounts">
+                      <div class="col-6 col-sm-6 col-md-6 pt-1">
+                        <p>{{credit.name}}</p>
+                      </div>
+                      <div class="col-6 col-sm-6 col-md-6 text-right pt-1">
+                        <div class="d-inline-block">{{credit.amount | number : '1.2-2'}} {{credit.currencyValue}}</div>
+                        <!-- <div class="text-success">2000 BAM</div>
+                <div class="text-success">21 EUR</div> -->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="container border rounded" *ngIf="assetAccounts.length > 0">
+                    <div class="row bg-lightgrey pt-1 pb-1">
+                      <div class="col-6 col-sm-6 col-md-6 pt-1">
+                        <h6>Asset</h6>
+                      </div>
+                      <div class="col-6 col-sm-6 col-md-6 text-right text-success pt-1">
+                        <h6>{{assetAccountsTotal | number : '1.2-2'}} BAM</h6>
+                      </div>
+                    </div>
+                    <div class="row border-bottom pt-1 pb-1" *ngFor="let asset of assetAccounts">
+                      <div class="col-6 col-sm-6 col-md-6 pt-1">
+                        <p>{{asset.name}}</p>
+                      </div>
+                      <div class="col-6 col-sm-6 col-md-6 text-right pt-1">
+                        <div class="d-inline-block">{{asset.amount | number : '1.2-2'}} {{asset.currencyValue}}</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="container border rounded" *ngIf="bankAccounts.length > 0">
+                    <div class="row bg-lightgrey pt-1 pb-1">
+                      <div class="col-6 col-sm-6 col-md-6 pt-1">
+                        <h6>Bank account</h6>
+                      </div>
+                      <div class="col-6 col-sm-6 col-md-6 text-right text-success pt-1">
+                        <h6>{{bankAccountsTotal | number : '1.2-2'}} BAM</h6>
+                      </div>
+                    </div>
+                    <div class="row border-bottom pt-1 pb-1" *ngFor="let bank of bankAccounts">
+                      <div class="col-6 col-sm-6 col-md-6 pt-1">
+                        <p>{{bank.name}}</p>
+                      </div>
+                      <div class="col-6 col-sm-6 col-md-6 text-right pt-1">
+                        <div class="d-inline-block">{{bank.amount | number : '1.2-2'}} {{bank.currencyValue}}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-8">
+                <div class="p-2" (click)="toggleDiv2()">
+                  <div class="d-inline-block w-50"><i class="fa fa-arrow-right" aria-hidden="true"></i>SHOPPING CARTS
+                  </div>
+                </div>
+                  <div id="accordion" *ngIf="nTransaction">
+                    <div class="card" *ngFor="let shoppingCart of shoppingCarts; let i = index">
+                      <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                          <button class="btn" data-toggle="collapse" [attr.data-target]="'#collapseOne' + i"
+                            aria-expanded="true" aria-controls="collapseOne">
+                            Shopping cart - {{ shoppingCart.id }}
+                          </button>
+                          <button class="float-right btn btn-primary" (click)="removeShoppingCart(shoppingCart)">Done</button>
+                        </h5>
+                      </div>
+
+                      <div id="collapseOne{{i}}" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                          <table class="w-100">
+                            <thead>
+                              <tr>
+                                <th>Item</th>
+                                <th>Price</th>
+                                <th>Counter</th>
+                                <th>Total price</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let items of shoppingCart.items" class="cartItemsRow" (dblclick)="doubleClick(items)">
+                                <td>{{ items.item.name }}</td>
+                                <td *ngIf="!priceChange || items !== itemCartSelected">{{ items.item.price | number : '1.2-2' | currency }}</td>
+                                <td *ngIf="priceChange && items === itemCartSelected">
+                                  <input type="number" class="form-control-sm p-1 mt-1" [(ngModel)]="inputText">
+                                  <button class="btn btn-primary btn-sm" (click)="saveNewPrice(itemCartSelected)">Save</button>
+                                </td>
+                                <td>{{ items.counter }}</td>
+                                <td>{{ items.item.price * items.counter | number : '1.2-2' | currency }}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- <div *ngIf="shoppingCarts.length > 0" class="d-block">
+                      <h6 class="d-inline-block" style="color: red">Total price: {{ item.totalPrice | currency }}</h6>
+                    </div> -->
+              </div>
+
+            </div>
+            <div class="col-lg-8 offset-lg-4">
+              <div class="p-2" (click)="toggleDiv3()">
+                <div class="d-inline-block w-50"><i class="fa fa-arrow-right" aria-hidden="true"></i>RECENT TRANSACTIONS
+                </div>
+                <!-- <div class="d-inline-block text-success float-right text-right mr-2 w-50" style="font-weight: bold">1985.00
+                            BAM</div> -->
+              </div>
+              <div class="container mt-1" *ngIf="rTransaction">
+                <div class="row mt-3 border-bottom" *ngFor="let transaction of transactions">
+                  <div class="col-2 col-sm-2 col-md-1 text-nowrap">{{transaction.dateTime | date: 'MM/yyyy'}}</div>
+                  <div class="col-8 col-sm-8 col-md-4 text-nowrap pl-5">{{transaction.account.name}}
+                    <i class="fa fa-arrow-{{ transaction.expenseOrIncome === 1 ? 'left' : 'right'}}"></i>
+                    <span class="bg-light p-1">{{ transaction.category.name }}</span></div>
+                  <div class="col-2 col-sm-2 col-md-1 text-nowrap">{{transaction.comment}}</div>
+                  <div class="col-12 col-sm-12 col-md-6">
+                    <div
+                      class="col-10 col-sm-10 col-md-10 d-inline-block text-right {{ transaction.expenseOrIncome === 1 ? 'text-success' : 'text-danger'}}">
+                      {{ transaction.amount}} {{ transaction.currencyValue }}</div>
+                    <div class="col-2 col-sm-2 col-md-2 d-inline-block text-right"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

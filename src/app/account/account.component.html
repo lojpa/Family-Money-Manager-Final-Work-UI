@@ -1,0 +1,349 @@
+<div *ngIf="createAccountError && clicked" class="alert alert-danger" role="alert">
+        Save account failed
+      </div>
+      <div *ngIf="!createAccountError && clicked" class="alert alert-success" role="alert">
+        Save account success
+      </div>
+<div class="container">
+    <div class="row">
+        <div class="col-xl-12 mt-3">
+            <div class="d-block w-100 border rounded h-100">
+                <div class="d-block w-100 p-3">
+                    <div class="row pl-0 pt-3 pb-3">
+                        <div class="col-md-12 ml-3">
+                            <h2>Accounts</h2>
+                        </div>
+                        <div class="col-5 col-sm-4 col-md-3 ml-3 mt-2">
+                            <button class="btn btn-primary w-100" data-toggle="modal" data-target="#exampleModal">Add new
+                                account</button>
+                        </div>
+                    </div>
+                    <div class="container" *ngIf="cashAccounts.length > 0">
+
+                        <div class="row bg-lightgrey pt-1 pb-1">
+                            <div class="col-6 col-sm-6 col-md-6 pt-1">
+                                <h6>Cash</h6>
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-6 text-right text-success pt-1">
+                                <h6>{{cashAccountsTotal | number : '1.2-2'}} BAM</h6>
+                            </div>
+                        </div>
+                        <div class="row border-bottom pt-1 pb-1" *ngFor="let cash of cashAccounts">
+                            <div class="col-6 col-sm-6 col-md-6 pt-1">
+                                <p>{{cash.name}}</p>
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-6 text-right pt-1">
+                                <div class="d-inline-block">{{cash.amount | number : '1.2-2'}} {{cash.currencyValue}}</div>
+                                <div class="d-inline-block pl-2"><i class="fa fa-pencil fa-sm" aria-hidden="true" role="button"
+                                        data-toggle="modal" data-target="#exampleModal2" (click)="fillModal(cash)"></i></div>
+                                <!-- <div class="text-success">2000 BAM</div>
+                                <div class="text-success">21 EUR</div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container" *ngIf="creditAccounts.length > 0">
+                        <div class="row bg-lightgrey pt-1 pb-1">
+                            <div class="col-6 col-sm-6 col-md-6 pt-1">
+                                <h6>Credit</h6>
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-6 text-right text-success pt-1">
+                                <h6>{{creditAccountsTotal | number : '1.2-2'}} BAM</h6>
+                            </div>
+                        </div>
+                        <div class="row border-bottom pt-1 pb-1" *ngFor="let credit of creditAccounts">
+                            <div class="col-6 col-sm-6 col-md-6 pt-1">
+                                <p>{{credit.name}}</p>
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-6 text-right  pt-1">
+                                <div class="d-inline-block">{{credit.amount | number : '1.2-2'}}
+                                    {{credit.currencyValue}}</div>
+                                <div class="d-inline-block pl-2"><i class="fa fa-pencil fa-sm" aria-hidden="true" role="button"
+                                        data-toggle="modal" data-target="#exampleModal2" (click)="fillModal(credit)"></i></div>
+                                <!-- <div class="text-success">2000 BAM</div>
+                                <div class="text-success">21 EUR</div> -->
+                            </div>
+                        </div>
+                        <!-- <div class="row  border-bottom  pt-1  pb-1">
+                            <div class="col-md-6 pt-1">
+                                <p>Adnan wallet</p>
+                            </div>
+                            <div class="col-md-6 text-right text-success pt-1">
+                                <div class="text-success ">120 USD</div>
+                                <div class="text-success">210 BAM</div>
+                                <div class="text-success">233 EUR</div>
+                            </div>
+                        </div>
+                        <div class="row  border-bottom  pt-1  pb-1">
+                            <div class="col-md-6 pt-1">
+                                <p>Dejan wallet</p>
+                            </div>
+                            <div class="col-md-6 text-right text-success pt-1">
+                                <div class="text-success">11 USD</div>
+                                <div class="text-success">26 BAM</div>
+                                <div class="text-success">12 EUR</div>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="container" *ngIf="assetAccounts.length > 0">
+                        <div class="row bg-lightgrey pt-1 pb-1">
+                            <div class="col-6 col-sm-6 col-md-6 pt-1">
+                                <h6>Asset</h6>
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-6 text-right text-success pt-1">
+                                <h6>{{assetAccountsTotal | number : '1.2-2'}} BAM</h6>
+                            </div>
+                        </div>
+                        <div class="row border-bottom pt-1 pb-1" *ngFor="let asset of assetAccounts">
+                            <div class="col-6 col-sm-6 col-md-6 pt-1">
+                                <p>{{asset.name}}</p>
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-6 text-right  pt-1">
+                                <div class="d-inline-block">{{asset.amount | number : '1.2-2'}} {{asset.currencyValue}}</div>
+                                <div class="d-inline-block pl-2"><i class="fa fa-pencil fa-sm" aria-hidden="true" role="button"
+                                        data-toggle="modal" data-target="#exampleModal2" (click)="fillModal(asset)"></i></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container" *ngIf="bankAccounts.length > 0">
+                        <div class="row bg-lightgrey pt-1 pb-1">
+                            <div class="col-6 col-sm-6 col-md-6 pt-1">
+                                <h6>Bank account</h6>
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-6 text-right text-success pt-1">
+                                <h6>{{bankAccountsTotal | number : '1.2-2'}} BAM</h6>
+                            </div>
+                        </div>
+                        <div class="row border-bottom pt-1 pb-1" *ngFor="let bank of bankAccounts">
+                            <div class="col-6 col-sm-6 col-md-6 pt-1">
+                                <p>{{bank.name}}</p>
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-6 text-right pt-1">
+                                <div class="d-inline-block">{{bank.amount | number : '1.2-2'}} {{bank.currencyValue}}</div>
+                                <div class="d-inline-block pl-2"><i class="fa fa-pencil fa-sm" aria-hidden="true" role="button"
+                                        data-toggle="modal" data-target="#exampleModal2" (click)="fillModal(bank)"></i></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">New account</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="container" [formGroup]="accountForm">
+                                    <div class="modal-body">
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col-md-12 mt-2">
+                                                            <div class="form-group">
+                                                                <label for="recipient-name" class="col-form-label">Name:</label>
+                                                                <input type="text" class="form-control" id="recipient-name"
+                                                                    formControlName="name">
+                                                            </div>
+                                                        </div>
+                                                        <fieldset class="form-group">
+                                                            <div class="col-md-12">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" id="gridRadios1"
+                                                                        value="BAM" formControlName="currencyValue"
+                                                                        (click)="changeCur('BAM')" [checked]="currV === 'BAM' ? 'checked' : null">
+                                                                    <label class="form-check-label" for="gridRadios1">
+                                                                        BAM
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" id="gridRadios2"
+                                                                        value="EUR" formControlName="currencyValue"
+                                                                        (click)="changeCur('EUR')" [checked]="currV === 'EUR' ? 'checked' : null">
+                                                                    <label class="form-check-label" for="gridRadios2">
+                                                                        EUR
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" id="gridRadios3"
+                                                                        value="USD" formControlName="currencyValue"
+                                                                        (click)="changeCur('USD')" [checked]="currV === 'USD' ? 'checked' : null">
+                                                                    <label class="form-check-label" for="gridRadios3">
+                                                                        USD
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </fieldset>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col-md-12 mt-2">
+                                                            <div class="form-group">
+                                                                <label for="message-text" class="col-form-label">Group:</label>
+                                                                <select class="form-control p-1" formControlName="accountGroupValue">
+                                                                    <option value="1">Cash</option>
+                                                                    <option value="2">Asset</option>
+                                                                    <option value="3">Credit</option>
+                                                                    <option value="4">Bank account</option>
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 mt-2">
+                                                            <div class="form-group">
+                                                                <div class="container">
+                                                                    <div class="row">
+                                                                        <div class="col-md-10 pl-0 pr-0">
+                                                                            <input min="0" step="0.25" type="number"
+                                                                                class="form-control" formControlName="amount">
+                                                                        </div>
+                                                                        <div class="col-md-2 pl-0 pr-0">
+                                                                            <div class="input-group-append w-100">
+                                                                                <span class="input-group-text">{{currV}}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                        #closeAccountModal>Close</button>
+                                    <button type="button" class="btn btn-primary" (click)="post(accountForm.value)">Save
+                                        account</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade bd-example-modal-lg" id="exampleModal2" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel2" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel2">Edit account</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="container">
+                                    <div class="modal-body">
+                                        <form [formGroup]="accountForm">
+                                            <div class="row">
+
+                                                <div class="col-md-6">
+
+                                                    <div class="container">
+                                                        <div class="row">
+                                                            <div class="col-md-12 mt-2">
+                                                                <div class="form-group">
+                                                                    <label for="recipient-name" class="col-form-label">Name:</label>
+                                                                    <input type="text" class="form-control"
+                                                                        formControlName="name">
+                                                                </div>
+                                                            </div>
+                                                            <fieldset class="form-group">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="radio" id="gridRadios1"
+                                                                            value="BAM" formControlName="currencyValue"
+                                                                            (click)="changeCur('BAM')" [checked]="currV === 'BAM' ? 'checked' : null">
+                                                                        <label class="form-check-label" for="gridRadios1">
+                                                                            BAM
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="radio" id="gridRadios2"
+                                                                            value="EUR" formControlName="currencyValue"
+                                                                            (click)="changeCur('EUR')" [checked]="currV === 'EUR' ? 'checked' : null">
+                                                                        <label class="form-check-label" for="gridRadios2">
+                                                                            EUR
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="radio" id="gridRadios3"
+                                                                            value="USD" formControlName="currencyValue"
+                                                                            (click)="changeCur('USD')" [checked]="currV === 'USD' ? 'checked' : null">
+                                                                        <label class="form-check-label" for="gridRadios3">
+                                                                            USD
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </fieldset>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="container">
+                                                        <div class="row">
+                                                            <div class="col-md-12 mt-2">
+                                                                <div class="form-group">
+                                                                    <label for="message-text" class="col-form-label">Group:</label>
+                                                                    <select class="form-control p-1" formControlName="accountGroupValue">
+                                                                        <option value="1" [selected]="editAccount.accountGroupValue === 'Cash' ? 'hidden' : null">Cash</option>
+                                                                        <option value="2" [selected]="editAccount.accountGroupValue === 'Asset' ? 'hidden' : null">Asset</option>
+                                                                        <option value="3" [selected]="editAccount.accountGroupValue === 'Credit' ? 'hidden' : null">Credit</option>
+                                                                        <option value="4" [selected]="editAccount.accountGroupValue === 'BankAccount' ? 'hidden' : null">Bank
+                                                                            account</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12 mt-2">
+                                                                <div class="form-group">
+                                                                    <div class="container">
+                                                                        <div class="row">
+                                                                            <div class="col-md-10 pl-0 pr-0">
+                                                                                <input min="0" step="0.25" type="number"
+                                                                                    value="" class="form-control"
+                                                                                    formControlName="amount">
+                                                                            </div>
+                                                                            <div class="col-md-2 pl-0 pr-0">
+                                                                                <div class="input-group-append w-100">
+                                                                                    <span class="input-group-text">{{currV}}</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" #closeEditAccountModal data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" (click)="patchAccount(accountForm.value)">Save
+                                        account</button>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger">Delete<i class="fa fa-trash-o" style="font-size:18px;color:white;background-color: transparent;"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

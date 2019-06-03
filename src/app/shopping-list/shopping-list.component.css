@@ -1,0 +1,12 @@
+.list-group-item {
+    cursor: pointer;
+}
+
+.list-group-item:hover {
+    background-color: lightgray;
+}
+
+.cartItemsRow:hover {
+    background-color: lightgray;
+    color: green;
+}

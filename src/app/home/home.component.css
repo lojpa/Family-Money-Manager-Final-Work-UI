@@ -1,0 +1,45 @@
+.bg-lightgrey {
+    background-color: rgb(230, 228, 228);
+}
+
+.border-lightgrey {
+ border: 1px solid rgb(230, 228, 228);   
+}
+
+.link-hover:hover {
+    background-color: rgb(245, 241, 241);
+}
+
+.w-60 {
+    width: 60%;
+}
+
+.w-65 {
+    width: 65%;
+}
+
+.w-35 {
+    width: 35%;
+}
+
+.w-30 {
+    width: 30%;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+  }
+
+  .fa-pencil {
+    display: inline-block;
+    border-radius: 60px;
+    box-shadow: 0px 0px 2px #888;
+    padding: 0.2em 0.2em;
+    background-color:#007bff;
+    color: white;
+  }
+  
+  .cartItemsRow:hover {
+    background-color: lightgray;
+    color: green;
+}
